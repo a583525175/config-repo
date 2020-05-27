@@ -1,7 +1,7 @@
 package com.lee.algorithm.code;
 
+
 import javafx.util.Pair;
-import org.omg.CORBA.INTERNAL;
 
 import java.util.*;
 
@@ -503,31 +503,130 @@ public class AlgorithmDemo {
         }
         return maxProfit;
     }
-    public static int maxProfitII(int[] prices) {
-        int maxProfit = 0;
-        int m=0;
-        int j=0;
-        while(j<prices.length){
-            int min = prices[j];
-            for (int i = 1; i < prices.length; i++) {
-                if(prices[i]<min){
-                    min=prices[i];
-                }else{
-                    maxProfit+=prices[i]-min;
-                    min=prices[i+1];
-                    i++;
-                }
-            }
-            m=Math.max(maxProfit,m);
-            j++;
-        }
 
+    public static int maxProfitII(int[] prices) {
+//        int maxProfit = 0;
+//        int m = 0;
+//        int j = 0;
+//        while (j < prices.length) {
+//            int min = prices[j];
+//            for (int i = 1; i < prices.length; i++) {
+//                if (prices[i] < min) {
+//                    min = prices[i];
+//                } else {
+//                    maxProfit += prices[i] - min;
+//                    min = prices[i + 1];
+//                    i++;
+//                }
+//            }
+//            m = Math.max(maxProfit, m);
+//            j++;
+//        }
+
+        int maxProfit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                //当前天价格大于前一天，有利润，进行计算
+                maxProfit += prices[i] - prices[i - 1];
+            }
+        }
         return maxProfit;
 
     }
 
+    public static boolean isPalindrome(String s) {
+        //双指针法，只判断是字符串的char
+        if (s.length() == 0) {
+            return true;
+        }
+        int i = 0;
+        int j = s.length() - 1;
+        while (i < j) {
+            if (!Character.isLetterOrDigit(s.charAt(i))) {
+                i++;
+                continue;
+            }
+            if (!Character.isLetterOrDigit(s.charAt(j))) {
+                j--;
+                continue;
+            }
+            if (Character.toLowerCase(s.charAt(i)) == Character.toLowerCase(s.charAt(j))) {
+                i++;
+                j--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int singleNumber(int[] nums) {
+        //暴力破解法,on2次方
+        for (int i = 0; i < nums.length; i++) {
+            int count = 0;
+            for (int j = 0; j < nums.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                if (nums[i] == nums[j]) {
+                    count = 1;
+                }
+            }
+            if (count == 0) {
+                return nums[i];
+            }
+        }
+        //
+
+
+        return 0;
+    }
+
+
+    public static boolean hasCycle(ListNode head) {
+
+        //哈希表方法，记录出现多次的，需要额外空间复杂度
+//        if (head == null) {
+//            return false;
+//        }
+//        HashSet<ListNode> set = new HashSet<>();
+//        set.add(head);
+//        while (head.next != null) {
+//            if (set.contains(head.next)) {
+//                return true;
+//            }
+//            head = head.next;
+//            set.add(head);
+//        }
+
+
+        //快慢双指针法。过于奇妙
+        ListNode lowNode =head;
+        ListNode fastNode = head.next;
+        while(lowNode!=fastNode){
+            if(fastNode==null){
+                //fastNode先到终点，证明没有环
+                return false;
+            }else{
+                fastNode=fastNode.next.next;
+                lowNode=lowNode.next;
+            }
+        }
+
+
+        return false;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {7,1,5,3,6,4};
-        System.out.println(maxProfitII(nums));
+//        String str = "aa";
+//        System.out.println(isPalindrome(str));
+        int i = 0;
+        int k = 5;
+        i ^= k;
+        System.out.println(i);
+
     }
 }
+
+
+
